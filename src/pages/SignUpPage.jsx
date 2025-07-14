@@ -59,7 +59,7 @@ const SignUpPage = () => {
                 <span className="label-text font-medium">Full Name</span>
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center z-20">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <User className="size-5 text-base-content/40" />
                 </div>
                 <input
@@ -77,7 +77,7 @@ const SignUpPage = () => {
                 <span className="label-text font-medium">Email</span>
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center z-20">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Mail className="size-5 text-base-content/40" />
                 </div>
                 <input
@@ -95,7 +95,7 @@ const SignUpPage = () => {
                 <span className="label-text font-medium">Password</span>
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center z-20">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="size-5 text-base-content/40" />
                 </div>
                 <input
@@ -146,7 +146,7 @@ const SignUpPage = () => {
 
       <AuthImagePattern
         title="Join our community"
-        subtitle="Connect with everyone, everywhere, at all times."
+        subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
       />
     </div>
   );

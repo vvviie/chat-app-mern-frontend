@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
-import { useAuthStore } from '../store/useAuthStore'
-import { Camera, Mail, User } from 'lucide-react';
+import { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
+import { Camera, Mail, User } from "lucide-react";
 
 const ProfilePage = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImg, setSelectedImg] = useState(null);
 
-  const handleImageUpload = async(e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-
     if (!file) return;
 
     const reader = new FileReader();
@@ -17,9 +16,9 @@ const ProfilePage = () => {
 
     reader.onload = async () => {
       const base64Image = reader.result;
-      setSelectedImage(base64Image);
+      setSelectedImg(base64Image);
       await updateProfile({ profilePic: base64Image });
-    }
+    };
   };
 
   return (
@@ -31,11 +30,12 @@ const ProfilePage = () => {
             <p className="mt-2">Your profile information</p>
           </div>
 
-        {/* AVATAR UPLOAD */}
-        <div className="flex flex-col items-center gap-4">
+          {/* avatar upload section */}
+
+          <div className="flex flex-col items-center gap-4">
             <div className="relative">
               <img
-                src={selectedImage || authUser.profilePic || "/avatar.png"}
+                src={selectedImg || authUser.profilePic || "/avatar.png"}
                 alt="Profile"
                 className="size-32 rounded-full object-cover border-4 "
               />
@@ -46,7 +46,7 @@ const ProfilePage = () => {
                   bg-base-content hover:scale-105
                   p-2 rounded-full cursor-pointer 
                   transition-all duration-200
-                  ${isUpdatingProfile ? "animate-pulse z-20" : ""}
+                  ${isUpdatingProfile ? "animate-pulse pointer-events-none" : ""}
                 `}
               >
                 <Camera className="w-5 h-5 text-base-200" />
@@ -65,7 +65,6 @@ const ProfilePage = () => {
             </p>
           </div>
 
-          {/* USER INFO */}
           <div className="space-y-6">
             <div className="space-y-1.5">
               <div className="text-sm text-zinc-400 flex items-center gap-2">
@@ -97,11 +96,9 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
-  )
-}
-
+  );
+};
 export default ProfilePage;
