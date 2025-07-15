@@ -8,14 +8,39 @@ import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
-  const { messages = [], getMessages, isMessagesLoading, selectedUser } = useChatStore();
+  const { messages = [], getMessages, isMessagesLoading, selectedUser, subscribeToMessages, unsubscribeToMessages } = useChatStore();
   const { authUser } = useAuthStore();
+  const messageEndRef = useRef(null);
 
   useEffect(() => {
     if (selectedUser?._id) {
       getMessages(selectedUser._id);
+
+      subscribeToMessages();
+
+      return () => unsubscribeToMessages();
     }
-  }, [selectedUser?._id, getMessages]);
+  }, [selectedUser?._id, getMessages, subscribeToMessages, unsubscribeToMessages]);
+
+  useEffect(() => {
+    if (!messages || messages.length === 0) return;
+
+    const images = Array.from(document.images).filter((img) => !img.complete);
+
+    if (images.length === 0) {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      let loadedCount = 0;
+      images.forEach((img) => {
+        img.addEventListener("load", () => {
+          loadedCount++;
+          if (loadedCount === images.length) {
+            messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    }
+  }, [messages]);
 
   if (isMessagesLoading) {
     return (
@@ -65,6 +90,9 @@ const ChatContainer = () => {
             </div>
           </div>
         ))}
+
+        {/* 👇 This is the actual scroll target */}
+        <div ref={messageEndRef} />
       </div>
 
       <MessageInput />
